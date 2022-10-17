@@ -1,0 +1,349 @@
+-- Perguntas a serem respondidas do banco de dados do ProUni:
+
+-- Bolsas ofertadas por ano
+
+SELECT ANO_CONCESSAO_BOLSA AS 'Ano', COUNT(COD_ID) AS 'Bolsas Ofertadas' FROM TAB_REGISTRO	
+GROUP BY ANO_CONCESSAO_BOLSA
+ORDER BY ANO_CONCESSAO_BOLSA
+GO
+
+-- Qual a quantidade de bolsas ofertadas para homens e mulheres ao longo dos anos?
+
+SELECT ANO_CONCESSAO_BOLSA AS 'Ano',
+COUNT(
+		COD_ID) AS 'Total de bolsas',
+SUM(
+		CASE WHEN SEXO_BENEFICIARIO_BOLSA = 'M' THEN 1 ELSE 0 END) AS 'Ofertadas a homens',
+SUM(
+		CASE WHEN SEXO_BENEFICIARIO_BOLSA = 'F' THEN 1 ELSE 0 END) AS 'Ofertadas a mulheres',
+ROUND((SUM(
+		CASE WHEN SEXO_BENEFICIARIO_BOLSA = 'M' THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 1) AS '% Homens',
+ROUND((SUM(
+		CASE WHEN SEXO_BENEFICIARIO_BOLSA = 'F' THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 1) AS '% Mulheres'
+FROM TAB_REGISTRO
+GROUP BY ANO_CONCESSAO_BOLSA
+ORDER BY ANO_CONCESSAO_BOLSA
+GO
+
+-- Qual a quantidade total de bolsas ofertadas para homens e mulheres?
+
+DECLARE @total AS FLOAT
+	SELECT @total = COUNT(COD_ID) FROM TAB_REGISTRO
+	SELECT CASE 
+				WHEN SEXO_BENEFICIARIO_BOLSA = 'M' THEN 'Homens' 
+				WHEN SEXO_BENEFICIARIO_BOLSA = 'F' THEN 'Mulheres' END AS 'Sexo', 
+	COUNT(SEXO_BENEFICIARIO_BOLSA) AS 'Bolsas Ofertadas',
+	ROUND((COUNT(SEXO_BENEFICIARIO_BOLSA)*100)/@total,2) AS '%'
+	FROM TAB_REGISTRO
+	GROUP BY SEXO_BENEFICIARIO_BOLSA
+GO
+
+
+-- Quantas bolsas integrais, parciais e complementares foram ofertadas no geral e ao longo dos anos?
+
+-- Geral
+DECLARE @total AS FLOAT
+	SELECT @total = COUNT(COD_ID) FROM TAB_REGISTRO
+SELECT CASE	
+			WHEN TIPO_BOLSA = '100%' THEN 'Total' 
+			WHEN TIPO_BOLSA = '50%' THEN 'Parcial' 
+			WHEN TIPO_BOLSA = '25%' THEN 'Complementar' END AS 'Tipo de bolsa',
+COUNT(TIPO_BOLSA) AS 'Bolsas ofertadas',
+ROUND((COUNT(TIPO_BOLSA)*100)/@total,2) AS '%'
+FROM TAB_REGISTRO
+GROUP BY TIPO_BOLSA
+GO
+
+-- Por ano
+SELECT ANO_CONCESSAO_BOLSA AS 'Ano',
+COUNT(
+		COD_ID) AS 'Total de bolsas',
+SUM(
+		CASE WHEN TIPO_BOLSA = '100%' THEN 1 ELSE 0 END) AS 'Bolsa total',
+SUM(
+		CASE WHEN TIPO_BOLSA = '50%' THEN 1 ELSE 0 END) AS 'Bolsa parcial',
+SUM(
+		CASE WHEN TIPO_BOLSA = '25%' THEN 1 ELSE 0 END) AS 'Bolsa complementar',
+ROUND((SUM(
+		CASE WHEN TIPO_BOLSA = '100%' THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 1) AS '% Bolsa total',
+ROUND((SUM(
+		CASE WHEN TIPO_BOLSA = '50%' THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 1) AS '% Bolsa parcial',
+ROUND((SUM(
+		CASE WHEN TIPO_BOLSA = '25%' THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 1) AS '% Bolsa complementar'
+FROM TAB_REGISTRO
+GROUP BY ANO_CONCESSAO_BOLSA
+ORDER BY ANO_CONCESSAO_BOLSA
+GO
+
+-- A bolsa complementar só foi adotada no ano de 2008, então gerar tabelas retirando a bolsa complementar dos cálculos pode ser interessante
+
+-- Geral
+DECLARE @total AS FLOAT
+	SELECT @total = COUNT(COD_ID) FROM TAB_REGISTRO WHERE TIPO_BOLSA = '100%' OR TIPO_BOLSA = '50%'
+SELECT CASE	
+			WHEN TIPO_BOLSA = '100%' THEN 'Total' 
+			WHEN TIPO_BOLSA = '50%' THEN 'Parcial' END AS 'Tipo de bolsa',
+		COUNT(TIPO_BOLSA) AS 'Bolsas ofertadas',
+		ROUND((COUNT(TIPO_BOLSA)*100)/@total,2) AS '%'
+FROM TAB_REGISTRO
+WHERE TIPO_BOLSA = '100%' OR TIPO_BOLSA = '50%'
+GROUP BY TIPO_BOLSA
+GO
+
+-- Por ano
+SELECT ANO_CONCESSAO_BOLSA AS 'Ano',
+		COUNT(
+				COD_ID) AS 'Total de bolsas',
+		SUM(
+				CASE WHEN TIPO_BOLSA = '100%' THEN 1 ELSE 0 END) AS 'Bolsa total',
+		SUM(
+				CASE WHEN TIPO_BOLSA = '50%' THEN 1 ELSE 0 END) AS 'Bolsa parcial',
+		ROUND((SUM(
+				CASE WHEN TIPO_BOLSA = '100%' THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 1) AS '% Bolsa total',
+		ROUND((SUM(
+				CASE WHEN TIPO_BOLSA = '50%' THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 1) AS '% Bolsa parcial'
+FROM TAB_REGISTRO
+WHERE TIPO_BOLSA = '100%' OR TIPO_BOLSA = '50%'
+GROUP BY ANO_CONCESSAO_BOLSA
+ORDER BY ANO_CONCESSAO_BOLSA
+GO
+
+-- Qual a raça autodeclarada mais atendida pelo programa ao todo e em cada ano?
+
+	-- Geral
+DECLARE @total AS FLOAT
+	SELECT @total = COUNT(COD_ID) FROM TAB_REGISTRO
+SELECT Y.DESC_RACA AS 'Raça',
+		COUNT(X.COD_RACA) AS 'Bolsas ofertadas',
+		ROUND((COUNT(X.COD_RACA)*100)/@total,2) AS '%'
+FROM TAB_REGISTRO X INNER JOIN TAB_RACA Y
+ON X.COD_RACA = Y.COD_RACA
+GROUP BY Y.DESC_RACA
+ORDER BY [%] DESC
+GO
+
+	-- Por ano
+SELECT ANO_CONCESSAO_BOLSA AS 'Ano',
+		COUNT(
+				COD_ID) AS 'Total de bolsas',
+		ROUND((SUM(
+				CASE WHEN COD_RACA = 1 THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 2) AS '% Branca',
+		ROUND((SUM(
+				CASE WHEN COD_RACA = 4 THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 2) AS '% Parda',
+		ROUND((SUM(
+				CASE WHEN COD_RACA = 5 THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 2) AS '% Preta',
+		ROUND((SUM(
+				CASE WHEN COD_RACA = 0 THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 2) AS '% Amarela',
+		ROUND((SUM(
+				CASE WHEN COD_RACA = 2 THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 2) AS '% Indígena',
+		ROUND((SUM(
+				CASE WHEN COD_RACA = 3 THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 2) AS '% Não Informada'
+FROM TAB_REGISTRO
+GROUP BY ANO_CONCESSAO_BOLSA
+ORDER BY ANO_CONCESSAO_BOLSA
+GO
+
+	-- Por ano somatória
+SELECT ANO_CONCESSAO_BOLSA AS 'Ano',
+		COUNT(
+				COD_ID) AS 'Total de bolsas',
+		SUM(CASE WHEN COD_RACA = 1 THEN 1 ELSE 0 END) AS 'Branca',
+		SUM(CASE WHEN COD_RACA = 4 THEN 1 ELSE 0 END) AS 'Parda',
+		SUM(CASE WHEN COD_RACA = 5 THEN 1 ELSE 0 END) AS 'Preta',
+		SUM(CASE WHEN COD_RACA = 0 THEN 1 ELSE 0 END) AS 'Amarela',
+		SUM(CASE WHEN COD_RACA = 2 THEN 1 ELSE 0 END) AS 'Indígena',
+		SUM(CASE WHEN COD_RACA = 3 THEN 1 ELSE 0 END) AS 'Não Informada'
+FROM TAB_REGISTRO
+GROUP BY ANO_CONCESSAO_BOLSA
+ORDER BY ANO_CONCESSAO_BOLSA
+GO
+
+-- Quais as dez intituições em que mais bolsas foram ofertadas?
+
+SELECT TOP(10) Y.NOME_IES_BOLSA AS 'Nome da Instituição de Ensino', COUNT(X.COD_EMEC_IES_BOLSA) AS 'Bolsas ofertadas'
+FROM TAB_REGISTRO X INNER JOIN TAB_IES Y
+ON X.COD_EMEC_IES_BOLSA = Y.COD_EMEC_IES_BOLSA
+GROUP BY Y.NOME_IES_BOLSA
+ORDER BY [Bolsas ofertadas] DESC
+GO
+
+-- Qual a proporção das modalidade de ensino das dez intituições em que mais bolsas foram ofertadas?
+
+SELECT TOP(10) Y.NOME_IES_BOLSA AS 'Nome da Instituição de Ensino', COUNT(X.COD_EMEC_IES_BOLSA) AS 'Bolsas ofertadas',
+				ROUND((SUM(
+								CASE WHEN X.MODALIDADE_ENSINO_BOLSA = 'Presencial' THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 2) AS '% Presencial',
+				ROUND((SUM(
+								CASE WHEN X.MODALIDADE_ENSINO_BOLSA = 'EaD' THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 2) AS '% EaD'
+FROM TAB_REGISTRO X INNER JOIN TAB_IES Y
+ON X.COD_EMEC_IES_BOLSA = Y.COD_EMEC_IES_BOLSA
+GROUP BY Y.NOME_IES_BOLSA
+ORDER BY [Bolsas ofertadas] DESC
+GO
+
+-- Qual a somatória das modalidade de ensino das dez intituições em que mais bolsas foram ofertadas? 
+
+SELECT TOP(10) Y.NOME_IES_BOLSA AS 'Nome da Instituição de Ensino', COUNT(X.COD_EMEC_IES_BOLSA) AS 'Bolsas ofertadas',
+				SUM(CASE WHEN X.MODALIDADE_ENSINO_BOLSA = 'Presencial' THEN 1 ELSE 0 END) AS 'Presencial',
+				SUM(CASE WHEN X.MODALIDADE_ENSINO_BOLSA = 'EaD' THEN 1 ELSE 0 END) AS 'EaD'
+FROM TAB_REGISTRO X INNER JOIN TAB_IES Y
+ON X.COD_EMEC_IES_BOLSA = Y.COD_EMEC_IES_BOLSA
+GROUP BY Y.NOME_IES_BOLSA
+ORDER BY [Bolsas ofertadas] DESC
+GO
+
+-- Qual a proporção entre modalidade EaD e Presencial ao longo dos anos?
+
+SELECT ANO_CONCESSAO_BOLSA AS 'Ano',
+		COUNT(
+				COD_ID) AS 'Total de bolsas',
+		ROUND((SUM(
+				CASE WHEN MODALIDADE_ENSINO_BOLSA = 'Presencial' THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 2) AS '% Presencial',
+		ROUND((SUM(
+				CASE WHEN MODALIDADE_ENSINO_BOLSA = 'EaD' THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 2) AS '% EaD'
+FROM TAB_REGISTRO
+GROUP BY ANO_CONCESSAO_BOLSA
+ORDER BY ANO_CONCESSAO_BOLSA
+GO
+
+	-- Somatória
+
+SELECT ANO_CONCESSAO_BOLSA AS 'Ano',
+		COUNT(
+				COD_ID) AS 'Total de bolsas',
+		SUM(CASE WHEN MODALIDADE_ENSINO_BOLSA = 'Presencial' THEN 1 ELSE 0 END) AS 'Presencial',
+		SUM(CASE WHEN MODALIDADE_ENSINO_BOLSA = 'EaD' THEN 1 ELSE 0 END) AS 'EaD'
+FROM TAB_REGISTRO
+GROUP BY ANO_CONCESSAO_BOLSA
+ORDER BY ANO_CONCESSAO_BOLSA
+GO
+
+-- Quais os 10 cursos mais ofertados?
+
+DECLARE @total AS FLOAT
+	SELECT @total = COUNT(NOME_CURSO_BOLSA) FROM TAB_REGISTRO
+SELECT TOP(10) NOME_CURSO_BOLSA AS 'Curso', 
+				COUNT(NOME_CURSO_BOLSA) AS 'Bolsas ofertadas',
+				ROUND((COUNT(NOME_CURSO_BOLSA)*100)/@total,2) AS '%'
+FROM TAB_REGISTRO
+GROUP BY NOME_CURSO_BOLSA
+ORDER BY [Bolsas ofertadas] DESC
+GO
+
+-- Os 10 cursos de engenharia mais ofertados
+
+DECLARE @total_curso AS FLOAT
+	SELECT @total_curso = COUNT(NOME_CURSO_BOLSA) FROM TAB_REGISTRO
+DECLARE @total_eng AS FLOAT
+	SELECT @total_eng = SUM(CASE WHEN NOME_CURSO_BOLSA LIKE 'Engenharia%' THEN 1 ELSE 0 END) FROM TAB_REGISTRO
+SELECT TOP(10) NOME_CURSO_BOLSA AS 'Curso', 
+				COUNT(NOME_CURSO_BOLSA) AS 'Bolsas ofertadas',
+				ROUND((COUNT(NOME_CURSO_BOLSA)*100)/@total_eng,2) AS '% Relativa',
+				ROUND((COUNT(NOME_CURSO_BOLSA)*100)/@total_curso,2) AS '% Geral'
+FROM TAB_REGISTRO
+WHERE NOME_CURSO_BOLSA LIKE 'Engenharia%'
+GROUP BY NOME_CURSO_BOLSA
+ORDER BY [Bolsas ofertadas] DESC
+GO
+
+-- Os 10 cursos mais ofertados e a proporção por sexo
+
+DECLARE @total AS FLOAT
+	SELECT @total = COUNT(NOME_CURSO_BOLSA) FROM TAB_REGISTRO
+SELECT TOP(10) NOME_CURSO_BOLSA AS 'Curso', 
+				COUNT(NOME_CURSO_BOLSA) AS 'Bolsas ofertadas',
+				ROUND((COUNT(NOME_CURSO_BOLSA)*100)/@total,2) AS '%',
+				ROUND((SUM(
+							CASE WHEN SEXO_BENEFICIARIO_BOLSA = 'F' THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 2) AS '% Mulheres',
+				ROUND((SUM(
+							CASE WHEN SEXO_BENEFICIARIO_BOLSA = 'M' THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 2) AS '% Homens'
+FROM TAB_REGISTRO
+GROUP BY NOME_CURSO_BOLSA
+ORDER BY [Bolsas ofertadas] DESC
+GO
+
+-- Os 10 cursos mais ofertados e a proporção por modalidade de ensino
+
+DECLARE @total AS FLOAT
+	SELECT @total = COUNT(NOME_CURSO_BOLSA) FROM TAB_REGISTRO
+SELECT TOP(10) NOME_CURSO_BOLSA AS 'Curso', 
+				COUNT(NOME_CURSO_BOLSA) AS 'Bolsas ofertadas',
+				ROUND((COUNT(NOME_CURSO_BOLSA)*100)/@total,2) AS '%',
+				ROUND((SUM(
+							CASE WHEN MODALIDADE_ENSINO_BOLSA = 'Presencial' THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 2) AS '% Presencial',
+				ROUND((SUM(
+							CASE WHEN MODALIDADE_ENSINO_BOLSA = 'EaD' THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 2) AS '% EaD'
+FROM TAB_REGISTRO
+GROUP BY NOME_CURSO_BOLSA
+ORDER BY [Bolsas ofertadas] DESC
+GO
+
+-- Os 10 cursos mais ofertados e a proporção por modalidade e sexo
+
+DECLARE @total AS FLOAT
+	SELECT @total = COUNT(NOME_CURSO_BOLSA) FROM TAB_REGISTRO
+SELECT TOP(10) NOME_CURSO_BOLSA AS 'Curso', 
+				COUNT(NOME_CURSO_BOLSA) AS 'Bolsas ofertadas',
+				ROUND((COUNT(NOME_CURSO_BOLSA)*100)/@total,2) AS '%',
+				ROUND((SUM(
+							CASE WHEN SEXO_BENEFICIARIO_BOLSA = 'F' THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 2) AS '% Mulheres',
+				ROUND((SUM(
+							CASE WHEN SEXO_BENEFICIARIO_BOLSA = 'M' THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 2) AS '% Homens',
+				ROUND((SUM(
+							CASE WHEN MODALIDADE_ENSINO_BOLSA = 'Presencial' THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 2) AS '% Presencial',
+				ROUND((SUM(
+							CASE WHEN MODALIDADE_ENSINO_BOLSA = 'EaD' THEN 1 ELSE 0 END) / CAST(COUNT(COD_ID) AS float) * 100), 2) AS '% EaD'
+FROM TAB_REGISTRO
+GROUP BY NOME_CURSO_BOLSA
+ORDER BY [Bolsas ofertadas] DESC
+GO
+
+-- Qual a proporção de PcDs atendidos pelo programa no geral e ao longo dos anos?
+
+-- Geral
+
+DECLARE @total AS FLOAT
+	SELECT @total = COUNT(COD_ID) FROM TAB_REGISTRO
+SELECT CASE WHEN BENEFICIARIO_DEFICIENTE_FISICO = 1 THEN 'Sim' ELSE 'Não' END AS 'Pessoa com deficiência',
+		ROUND(((COUNT(BENEFICIARIO_DEFICIENTE_FISICO) * 100)/@total),2) AS '(%)'
+FROM TAB_REGISTRO
+GROUP BY BENEFICIARIO_DEFICIENTE_FISICO
+GO
+
+-- Por ano
+
+DECLARE @total AS FLOAT
+	SELECT @total = COUNT(COD_ID) FROM TAB_REGISTRO
+SELECT ANO_CONCESSAO_BOLSA, 
+		ROUND((COUNT(BENEFICIARIO_DEFICIENTE_FISICO) * 100)/@total, 2) AS '% Pessoas com deficiência'
+FROM TAB_REGISTRO
+GROUP BY ANO_CONCESSAO_BOLSA
+ORDER BY ANO_CONCESSAO_BOLSA
+GO
+
+-- Qual a região com maior número de bolsas ofertadas? Qual o menor?
+
+DECLARE @total AS FLOAT
+	SELECT @total = COUNT(COD_ID) FROM TAB_REGISTRO
+SELECT REGIAO AS 'Região', 
+	COUNT(REGIAO) AS 'Bolsas concedidas',
+	ROUND((COUNT(REGIAO) * 100 / @total), 2)  AS '%'
+FROM TAB_REGISTRO X INNER JOIN TAB_LOCAL Y
+ON X.COD_MUNICIPIO = Y.COD_MUNICIPIO
+GROUP BY REGIAO
+HAVING COUNT(REGIAO) > 1000
+ORDER BY [Bolsas concedidas] DESC
+GO
+
+-- Qual o estado com o maior número de bolsas ofertadas? Qual o menor?
+
+DECLARE @total AS FLOAT
+	SELECT @total = COUNT(COD_ID) FROM TAB_REGISTRO
+SELECT SIGLA_UF AS 'Estado', 
+	COUNT(SIGLA_UF) AS 'Bolsas concedidas',
+	ROUND((COUNT(SIGLA_UF) * 100 / @total), 2)  AS '%'
+FROM TAB_REGISTRO X INNER JOIN TAB_LOCAL Y
+ON X.COD_MUNICIPIO = Y.COD_MUNICIPIO
+GROUP BY SIGLA_UF
+HAVING COUNT(REGIAO) > 1000
+ORDER BY [Bolsas concedidas] DESC
+GO
