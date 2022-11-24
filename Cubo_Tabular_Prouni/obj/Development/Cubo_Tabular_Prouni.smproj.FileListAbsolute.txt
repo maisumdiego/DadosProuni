@@ -1,0 +1,7 @@
+C:\Users\diego\Projetos Python\Dados Prouni\Cubo_Tabular_Prouni\bin\Cubo Geral.asdatabase
+C:\Users\diego\Projetos Python\Dados Prouni\Cubo_Tabular_Prouni\bin\Cubo Geral.deploymenttargets
+C:\Users\diego\Projetos Python\Dados Prouni\Cubo_Tabular_Prouni\bin\Cubo Geral.deploymentoptions
+C:\Users\diego\Projetos Python\Dados Prouni\Cubo_Tabular_Prouni\obj\Development\Cubo_Tabular_Prouni.smproj.CoreCompileInputs.cache
+C:\Users\diego\Projetos Python\Dados Prouni\Cubo_Tabular_Prouni\obj\Development\Cubo Geral.asdatabase
+C:\Users\diego\Projetos Python\Dados Prouni\Cubo_Tabular_Prouni\obj\Development\Cubo Geral.deploymentoptions
+C:\Users\diego\Projetos Python\Dados Prouni\Cubo_Tabular_Prouni\obj\Development\Cubo Geral.deploymenttargets

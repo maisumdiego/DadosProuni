@@ -1,0 +1,514 @@
+{
+  "name": "Cubo_Tabular_Prouni",
+  "compatibilityLevel": 1500,
+  "model": {
+    "name": "Modelo",
+    "culture": "pt-BR",
+    "dataSources": [
+      {
+        "type": "structured",
+        "name": "SQL/DESKTOP-VASG2SS;DADOS_PROUNI",
+        "connectionDetails": {
+          "protocol": "tds",
+          "address": {
+            "server": "DESKTOP-VASG2SS",
+            "database": "DADOS_PROUNI"
+          },
+          "authentication": null,
+          "query": null
+        },
+        "credential": {
+          "AuthenticationKind": "ServiceAccount",
+          "kind": "SQL",
+          "path": "desktop-vasg2ss;DADOS_PROUNI",
+          "EncryptConnection": true
+        }
+      }
+    ],
+    "tables": [
+      {
+        "name": "Instituição de Ensino",
+        "columns": [
+          {
+            "name": "COD_EMEC_IES_BOLSA",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "COD_EMEC_IES_BOLSA"
+          },
+          {
+            "name": "NOME_IES_BOLSA",
+            "dataType": "string",
+            "sourceColumn": "NOME_IES_BOLSA"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/DESKTOP-VASG2SS;DADOS_PROUNI\",",
+                "    dbo_TAB_IES = Source{[Schema=\"dbo\",Item=\"TAB_IES\"]}[Data]",
+                "in",
+                "    dbo_TAB_IES"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Localização",
+        "columns": [
+          {
+            "name": "COD_MUNICIPIO",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "COD_MUNICIPIO"
+          },
+          {
+            "name": "REGIAO",
+            "dataType": "string",
+            "sourceColumn": "REGIAO"
+          },
+          {
+            "name": "SIGLA_UF",
+            "dataType": "string",
+            "sourceColumn": "SIGLA_UF"
+          },
+          {
+            "name": "DESC_MUNICIPIO",
+            "dataType": "string",
+            "sourceColumn": "DESC_MUNICIPIO"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/DESKTOP-VASG2SS;DADOS_PROUNI\",",
+                "    dbo_TAB_LOCAL = Source{[Schema=\"dbo\",Item=\"TAB_LOCAL\"]}[Data]",
+                "in",
+                "    dbo_TAB_LOCAL"
+              ]
+            }
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "Nível Localização",
+            "levels": [
+              {
+                "name": "SIGLA_UF",
+                "ordinal": 1,
+                "column": "SIGLA_UF"
+              },
+              {
+                "name": "REGIAO",
+                "ordinal": 0,
+                "column": "REGIAO"
+              },
+              {
+                "name": "DESC_MUNICIPIO",
+                "ordinal": 2,
+                "column": "DESC_MUNICIPIO"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Raça",
+        "columns": [
+          {
+            "name": "COD_RACA",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "COD_RACA"
+          },
+          {
+            "name": "DESC_RACA",
+            "dataType": "string",
+            "sourceColumn": "DESC_RACA"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/DESKTOP-VASG2SS;DADOS_PROUNI\",",
+                "    dbo_TAB_RACA = Source{[Schema=\"dbo\",Item=\"TAB_RACA\"]}[Data]",
+                "in",
+                "    dbo_TAB_RACA"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Registro",
+        "columns": [
+          {
+            "name": "COD_ID",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "COD_ID"
+          },
+          {
+            "name": "ANO_CONCESSAO_BOLSA",
+            "dataType": "int64",
+            "isNullable": false,
+            "sourceColumn": "ANO_CONCESSAO_BOLSA",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "COD_RACA",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "COD_RACA"
+          },
+          {
+            "name": "COD_MUNICIPIO",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "COD_MUNICIPIO"
+          },
+          {
+            "name": "COD_EMEC_IES_BOLSA",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "COD_EMEC_IES_BOLSA"
+          },
+          {
+            "name": "CPF_BENEFICIARIO_BOLSA",
+            "dataType": "string",
+            "sourceColumn": "CPF_BENEFICIARIO_BOLSA"
+          },
+          {
+            "name": "SEXO_BENEFICIARIO_BOLSA",
+            "dataType": "string",
+            "sourceColumn": "SEXO_BENEFICIARIO_BOLSA"
+          },
+          {
+            "name": "NOME_CURSO_BOLSA",
+            "dataType": "string",
+            "sourceColumn": "NOME_CURSO_BOLSA"
+          },
+          {
+            "name": "DT_NASCIMENTO_BENEFICIARIO",
+            "dataType": "dateTime",
+            "sourceColumn": "DT_NASCIMENTO_BENEFICIARIO"
+          },
+          {
+            "name": "BENEFICIARIO_DEFICIENTE_FISICO",
+            "dataType": "int64",
+            "sourceColumn": "BENEFICIARIO_DEFICIENTE_FISICO",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "TIPO_BOLSA",
+            "dataType": "string",
+            "sourceColumn": "TIPO_BOLSA"
+          },
+          {
+            "name": "MODALIDADE_ENSINO_BOLSA",
+            "dataType": "string",
+            "sourceColumn": "MODALIDADE_ENSINO_BOLSA"
+          },
+          {
+            "name": "IDADE",
+            "dataType": "int64",
+            "sourceColumn": "IDADE",
+            "summarizeBy": "average"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/DESKTOP-VASG2SS;DADOS_PROUNI\",",
+                "    dbo_TAB_REGISTRO = Source{[Schema=\"dbo\",Item=\"TAB_REGISTRO\"]}[Data]",
+                "in",
+                "    dbo_TAB_REGISTRO"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Medidas",
+        "isHidden": true,
+        "columns": [
+          {
+            "type": "calculatedTableColumn",
+            "name": "Medidas",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "isHidden": true,
+            "sourceColumn": "[Medidas]"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "CalculatedTable 1",
+            "source": {
+              "type": "calculated",
+              "expression": "DATATABLE(\"Medidas\", STRING, {{\"vazio\"}})"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Média etária",
+            "expression": " CONCATENATE(ROUND(SUM(Registro[IDADE])/COUNT(Registro[IDADE]), 0), \" anos\")"
+          },
+          {
+            "name": "Contagem idade",
+            "expression": " COUNT(Registro[IDADE])",
+            "formatString": "#,0"
+          },
+          {
+            "name": "Contagem geral",
+            "expression": " COUNT(Registro[COD_ID])",
+            "formatString": "#,0"
+          },
+          {
+            "name": "Contagem PcD",
+            "expression": " CALCULATE(COUNTROWS(Registro), Registro[BENEFICIARIO_DEFICIENTE_FISICO]=1)",
+            "formatString": "#,0"
+          },
+          {
+            "name": "Porcetagem PcD",
+            "expression": " [Contagem PcD]/[Contagem geral]",
+            "formatString": "0.00%;-0.00%;0.00%"
+          }
+        ]
+      },
+      {
+        "name": "Tipo Bolsa",
+        "columns": [
+          {
+            "type": "calculatedTableColumn",
+            "name": "TIPO_BOLSA",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Registro[TIPO_BOLSA]"
+          },
+          {
+            "type": "calculated",
+            "name": "DESC_TIPO_BOLSA",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": [
+              "IF('Tipo Bolsa'[TIPO_BOLSA]=\"100%\",\"Integral\",",
+              "IF('Tipo Bolsa'[TIPO_BOLSA]=\"50%\", \"Parcial\",\"Complementar\"))"
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "CalculatedTable 1",
+            "source": {
+              "type": "calculated",
+              "expression": "DISTINCT(Registro[TIPO_BOLSA])"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Estados",
+        "columns": [
+          {
+            "type": "calculatedTableColumn",
+            "name": "SIGLA_UF",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Localização[SIGLA_UF]"
+          },
+          {
+            "type": "calculated",
+            "name": "DESC_UF",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": [
+              "IF('Estados'[SIGLA_UF]=\"RS\",\"Rio Grande do Sul\",",
+              "IF('Estados'[SIGLA_UF]=\"PR\",\"Paraná\",",
+              "IF('Estados'[SIGLA_UF]=\"MG\",\"Minas Gerais\",",
+              "IF('Estados'[SIGLA_UF]=\"RJ\",\"Rio de Janeiro\",",
+              "IF('Estados'[SIGLA_UF]=\"SP\",\"São Paulo\",",
+              "IF('Estados'[SIGLA_UF]=\"DF\",\"Distrito Federal\",",
+              "IF('Estados'[SIGLA_UF]=\"AM\",\"Amazonas\",",
+              "IF('Estados'[SIGLA_UF]=\"MS\",\"Mato Grosso do Sul\",",
+              "IF('Estados'[SIGLA_UF]=\"ES\",\"Espírito Santo\",",
+              "IF('Estados'[SIGLA_UF]=\"PI\",\"Piauí\",",
+              "IF('Estados'[SIGLA_UF]=\"PA\",\"Pará\",",
+              "IF('Estados'[SIGLA_UF]=\"MT\",\"Mato Grosso\",",
+              "IF('Estados'[SIGLA_UF]=\"CE\",\"Ceará\",",
+              "IF('Estados'[SIGLA_UF]=\"BA\",\"Bahia\",",
+              "IF('Estados'[SIGLA_UF]=\"RN\",\"Rio Grande do Norte\",",
+              "IF('Estados'[SIGLA_UF]=\"PE\",\"Pernambuco\",",
+              "IF('Estados'[SIGLA_UF]=\"GO\",\"Goiás\",",
+              "IF('Estados'[SIGLA_UF]=\"RO\",\"Rondônia\",",
+              "IF('Estados'[SIGLA_UF]=\"SC\",\"Santa Catarina\",",
+              "IF('Estados'[SIGLA_UF]=\"TO\",\"Tocantins\",",
+              "IF('Estados'[SIGLA_UF]=\"AL\",\"Alagoas\",",
+              "IF('Estados'[SIGLA_UF]=\"SE\",\"Sergipe\",",
+              "IF('Estados'[SIGLA_UF]=\"MA\",\"Maranhão\",",
+              "IF('Estados'[SIGLA_UF]=\"PB\",\"Paraíba\",",
+              "IF('Estados'[SIGLA_UF]=\"AP\",\"Amapá\",",
+              "IF('Estados'[SIGLA_UF]=\"AC\",\"Acre\",\"Roraima\"))))))))))))))))))))))))))"
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "CalculatedTable 1",
+            "source": {
+              "type": "calculated",
+              "expression": "DISTINCT('Localização'[SIGLA_UF])"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Faixa Etária",
+        "columns": [
+          {
+            "type": "calculatedTableColumn",
+            "name": "IDADE",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Registro[IDADE]"
+          },
+          {
+            "type": "calculated",
+            "name": "Faixa Etária",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": [
+              "IF('Faixa Etária'[IDADE]<21,\"< 20\",",
+              "IF('Faixa Etária'[IDADE]<26,\"21 - 25\",",
+              "IF('Faixa Etária'[IDADE]<31,\"26 - 30\",",
+              "IF('Faixa Etária'[IDADE]<41,\"31 - 40\",",
+              "IF('Faixa Etária'[IDADE]<51,\"41 - 50\",",
+              "IF('Faixa Etária'[IDADE]<60,\"51 - 59\",",
+              "IF('Faixa Etária'[IDADE]>=60,\"> 60\")))))))"
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "CalculatedTable 1",
+            "source": {
+              "type": "calculated",
+              "expression": "CALCULATETABLE(VALUES(Registro[IDADE]),Registro[IDADE] <> BLANK())"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Sexo",
+        "columns": [
+          {
+            "type": "calculatedTableColumn",
+            "name": "SEXO_BENEFICIARIO_BOLSA",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "Registro[SEXO_BENEFICIARIO_BOLSA]"
+          },
+          {
+            "type": "calculated",
+            "name": "Sexo",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "(IF('Sexo'[SEXO_BENEFICIARIO_BOLSA]=\"F\",\"Feminino\",\"Masculino\"))"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "CalculatedTable 1",
+            "source": {
+              "type": "calculated",
+              "expression": "DISTINCT(Registro[SEXO_BENEFICIARIO_BOLSA])"
+            }
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "fd6048f4-076e-40c5-b61a-b19b23d441e9",
+        "fromTable": "Registro",
+        "fromColumn": "COD_EMEC_IES_BOLSA",
+        "toTable": "Instituição de Ensino",
+        "toColumn": "COD_EMEC_IES_BOLSA"
+      },
+      {
+        "name": "e2fd3d2d-03d0-4c91-9860-d1060f79d356",
+        "fromTable": "Registro",
+        "fromColumn": "COD_MUNICIPIO",
+        "toTable": "Localização",
+        "toColumn": "COD_MUNICIPIO"
+      },
+      {
+        "name": "65f49d61-9a28-4c46-a0f5-d69b2afc9754",
+        "fromTable": "Registro",
+        "fromColumn": "COD_RACA",
+        "toTable": "Raça",
+        "toColumn": "COD_RACA"
+      },
+      {
+        "name": "67a40f24-1322-47e7-86ca-5e436fc5024e",
+        "fromTable": "Registro",
+        "fromColumn": "TIPO_BOLSA",
+        "toTable": "Tipo Bolsa",
+        "toColumn": "TIPO_BOLSA"
+      },
+      {
+        "name": "b3095ded-00de-4349-b7d6-dda74b1c8598",
+        "fromTable": "Localização",
+        "fromColumn": "SIGLA_UF",
+        "toTable": "Estados",
+        "toColumn": "SIGLA_UF"
+      },
+      {
+        "name": "e6635e27-4fc9-454d-9cb7-0f2b5e37eb71",
+        "fromTable": "Registro",
+        "fromColumn": "IDADE",
+        "toTable": "Faixa Etária",
+        "toColumn": "IDADE"
+      },
+      {
+        "name": "bddcd359-2e9c-4191-8765-99fe71243326",
+        "fromTable": "Registro",
+        "fromColumn": "SEXO_BENEFICIARIO_BOLSA",
+        "toTable": "Sexo",
+        "toColumn": "SEXO_BENEFICIARIO_BOLSA"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "ClientCompatibilityLevel",
+        "value": "600"
+      }
+    ]
+  }
+}
