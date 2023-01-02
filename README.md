@@ -41,7 +41,7 @@ Neste repositório é possível encontrar o código utilizado no processo de ETL
 | Modalidade de ensino | MODALIDADE_ENSINO_BOLSA | Alfanumérico | Descrição da modalidade de ensino da bolsa concedida ao beneficiário do   ProUni (presencial ou ensino à distância – EAD).  |
 | Nome do Curso | NOME_CURSO_BOLSA  | Alfanumérico | Nome do curso do beneficiário da bolsa ProUni.  |
 | Turno do Curso | NOME_TURNO_CURSO_BOLSA | Alfanumérico  | Descrição do turno do curso do beneficiário da bolsa ProUni.  |
-| CPF do beneficiário | CPF_BENEFICIARIO_BOLSA  | Alfanumérico | CPF do beneficiário da bolsa ProUni |
+| CPF do beneficiário | CPF_BENEFICIARIO_BOLSA  | Alfanumérico | CPF do beneficiário da bolsa ProUni* |
 | Sexo do beneficiário | SEXO_BENEFICIARIO_BOLSA | Alfanumérico | Sexo informado pelo beneficiário da bolsa ProUni.  |
 | Raça/Cor | RACA_BENEFICIARIO_BOLSA | Alfanumérico | Raça/Cor informado pelo beneficiário da bolsa ProUni. |
 | Data de nascimento do beneficiário | DT_NASCIMENTO_BENEFICIARIO | Data | Data de nascimento do beneficiário da bolsa ProUni.  |
@@ -49,3 +49,18 @@ Neste repositório é possível encontrar o código utilizado no processo de ETL
 | Região | REGIAO_BENEFICIARIO_BOLSA  | Alfanumérico | Nome da região de residência do beneficiário da bolsa ProUni. |
 | UF | SIGLA_UF_BENEFICIARIO_BOLSA  | Alfanumérico | Sigla da UF de residência do beneficiário da bolsa ProUni. |
 | Município | MUNICIPIO_BENEFICIARIO_BOLSA  | Alfanumérico | Nome do Município de residência do beneficiário da bolsa ProUni. |
+
+(*) Casos permissivos de sobreposição de bolsas:
+* bolsas suspensas com posterior renovação em período/ano diferentes;
+* bolsas canceladas com nova concessão posterior em período/ano diferentes. 
+
+
+### Modelagem de dados
+Os dados tratados foram formatados para um banco de dados SQL com a seguinte modelagem:
+
+<img width="60%" height="60%" src="https://raw.githubusercontent.com/maisumdiego/DadosProuni/main/Diagrama%20geral.png">
+
+## Resultados gerados
+
+### Relatório de Análise de Dados em PDF
+
