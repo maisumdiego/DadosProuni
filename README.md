@@ -58,19 +58,29 @@ Neste repositório é possível encontrar o código utilizado no processo de ETL
 ### Modelagem de dados
 Os dados tratados foram formatados para um banco de dados SQL com a seguinte modelagem:
 
-<img width="60%" height="60%" src="https://raw.githubusercontent.com/maisumdiego/DadosProuni/main/Diagrama%20geral.png">
+<img width="40%" height="40%" src="https://raw.githubusercontent.com/maisumdiego/DadosProuni/main/Imagens/Diagrama%20geral.png">
 
 ## Data Visualization
 
 ### Relatório de Análise de Dados em PDF
 <div>
-<img width="40%" height="40%" src="https://raw.githubusercontent.com/maisumdiego/DadosProuni/main/Relat%C3%B3rio%20PDF%201.png">
-<img width="40%" height="40%" src="https://raw.githubusercontent.com/maisumdiego/DadosProuni/main/Relat%C3%B3rio%20PDF%202.png">
+<img width="40%" height="40%" src="https://raw.githubusercontent.com/maisumdiego/DadosProuni/main/Imagens/Relat%C3%B3rio%20PDF%201.png">
+<img width="40%" height="40%" src="https://raw.githubusercontent.com/maisumdiego/DadosProuni/main/Imagens/Relat%C3%B3rio%20PDF%202.png">
 </div>
 &nbsp;
 
 Esse relatório completo está disponível no arquivo [Relatório de Análise de Dados](https://github.com/maisumdiego/DadosProuni/blob/main/Relat%C3%B3rio%20de%20An%C3%A1lise%20de%20Dados.pdf).
 
 ### Relatório de Análise de Dados em PDF no Power BI
+<div>
+<img width="50%" height="50%" src="https://raw.githubusercontent.com/maisumdiego/DadosProuni/main/Imagens/Power%20BI%201.png">
+<img width="50%" height="50%" src="https://github.com/maisumdiego/DadosProuni/blob/main/Imagens/Power%20BI%202.png">
+</div>
+&nbsp;
 
+O arquivo desse relatório não está disponível no online, bem como sua base de dados.
 
+## Publicações
+Um artigo discorrendo um pouco do processo de ETL foi escrito e publicado no Linkedin: [Projeto Dados Prouni: processo de ETL para o SQL Server utilizando Python](https://www.linkedin.com/pulse/projeto-dados-prouni-processo-de-etl-para-o-sqlserver-diego-ferreira/).
+
+As demais postagens referentes ao projeto podem ser encontradas no meu [perfil no Linkedin](https://www.linkedin.com/in/ddiegoferreira/)
