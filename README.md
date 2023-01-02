@@ -60,7 +60,17 @@ Os dados tratados foram formatados para um banco de dados SQL com a seguinte mod
 
 <img width="60%" height="60%" src="https://raw.githubusercontent.com/maisumdiego/DadosProuni/main/Diagrama%20geral.png">
 
-## Resultados gerados
+## Data Visualization
 
 ### Relatório de Análise de Dados em PDF
+<div>
+<img width="40%" height="40%" src="https://raw.githubusercontent.com/maisumdiego/DadosProuni/main/Relat%C3%B3rio%20PDF%201.png">
+<img width="40%" height="40%" src="https://raw.githubusercontent.com/maisumdiego/DadosProuni/main/Relat%C3%B3rio%20PDF%202.png">
+</div>
+&nbsp;
+
+Esse relatório completo está disponível no arquivo [Relatório de Análise de Dados](https://github.com/maisumdiego/DadosProuni/blob/main/Relat%C3%B3rio%20de%20An%C3%A1lise%20de%20Dados.pdf).
+
+### Relatório de Análise de Dados em PDF no Power BI
+
 
