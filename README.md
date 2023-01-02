@@ -18,3 +18,34 @@ Neste repositório é possível encontrar o código utilizado no processo de ETL
 [![Python](https://img.shields.io/badge/python-00bfef?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![MicrosoftSQLServer](https://img.shields.io/badge/Microsoft%20SQL%20Sever-00bfef?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white)](https://www.microsoft.com/pt-br/sql-server/sql-server-2019)
 [![Power Bi](https://img.shields.io/badge/power_bi-00bfef?style=for-the-badge&logo=powerbi&logoColor=white)](https://powerbi.microsoft.com/pt-br/)
+
+### Bibliotecas
+[![Pandas](https://img.shields.io/badge/pandas-545454.svg?style=for-the-badge&logo=pandas&logoColor=white)](https://pandas.pydata.org/)
+[![NumPy](https://img.shields.io/badge/numpy-545454.svg?style=for-the-badge&logo=numpy&logoColor=white)](https://numpy.org/)
+[![SqlAlchemy](https://shields.io/badge/SQLALCHEMY-545454?style=for-the-badge&logo=python&logoColor=white)](https://www.sqlalchemy.org/)
+
+
+[![Glob](https://shields.io/badge/GLOB-545454?style=for-the-badge&logo=python&logoColor=white)](https://docs.python.org/3/library/glob.html#module-glob)
+[![Unidecode](https://shields.io/badge/UNIDECODE-545454?style=for-the-badge&logo=python&logoColor=white)](https://pypi.org/project/Unidecode/)
+[![Datetime](https://shields.io/badge/DATETIME-545454?style=for-the-badge&logo=python&logoColor=white)](https://docs.python.org/3/library/datetime.html)
+
+## Conhecendo os dados
+### Esquema original
+
+| Nome | Campo | Tipo | Descrição |
+|---|---|---|---|
+| Ano da concessão da bolsa | ANO_CONCESSAO_BOLSA | Numérico | Ano da concessão da bolsa ProUni (início da vigência). |
+| Código do e-MEC da IES que concedeu a   bolsa | CODIGO_EMEC_IES_BOLSA | Numérico | Código do e-MEC referente a IES que concedeu a bolsa ProUni. |
+| Nome da IES | NOME_IES_BOLSA | Alfanumérico | Nome/Razão Social da Instituição de Ensino Superior que concedeu a bolsa   ProUni.  |
+| Tipo da Bolsa | TIPO_BOLSA | Alfanumérico | Descrição do tipo da bolsa concedida ao beneficiário do ProUni (integral   – 100% ou parcial – 50%).  |
+| Modalidade de ensino | MODALIDADE_ENSINO_BOLSA | Alfanumérico | Descrição da modalidade de ensino da bolsa concedida ao beneficiário do   ProUni (presencial ou ensino à distância – EAD).  |
+| Nome do Curso | NOME_CURSO_BOLSA  | Alfanumérico | Nome do curso do beneficiário da bolsa ProUni.  |
+| Turno do Curso | NOME_TURNO_CURSO_BOLSA | Alfanumérico  | Descrição do turno do curso do beneficiário da bolsa ProUni.  |
+| CPF do beneficiário | CPF_BENEFICIARIO_BOLSA  | Alfanumérico | CPF do beneficiário da bolsa ProUni |
+| Sexo do beneficiário | SEXO_BENEFICIARIO_BOLSA | Alfanumérico | Sexo informado pelo beneficiário da bolsa ProUni.  |
+| Raça/Cor | RACA_BENEFICIARIO_BOLSA | Alfanumérico | Raça/Cor informado pelo beneficiário da bolsa ProUni. |
+| Data de nascimento do beneficiário | DT_NASCIMENTO_BENEFICIARIO | Data | Data de nascimento do beneficiário da bolsa ProUni.  |
+| Indicação se o beneficiário é portador de   deficiência  | BENEFICIARIO_DEFICIENTE_FISICO | Alfanumérico | Indicação se o beneficiário da bolsa ProUni é portador de algum tipo de   deficiência (sim ou não).  |
+| Região | REGIAO_BENEFICIARIO_BOLSA  | Alfanumérico | Nome da região de residência do beneficiário da bolsa ProUni. |
+| UF | SIGLA_UF_BENEFICIARIO_BOLSA  | Alfanumérico | Sigla da UF de residência do beneficiário da bolsa ProUni. |
+| Município | MUNICIPIO_BENEFICIARIO_BOLSA  | Alfanumérico | Nome do Município de residência do beneficiário da bolsa ProUni. |
