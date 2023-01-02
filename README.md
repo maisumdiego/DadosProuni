@@ -1,5 +1,19 @@
 <img width=100% src="https://capsule-render.vercel.app/api?type=rect&color=0:73db86,100:00bfef&section=header&height=120&text=Projeto%20de%20Data%20Warehouse%20Prouni&desc=ETL%20e%20Data%20Visualization&animation=fadeIn&fontColor=ffffff&fontSize=30&descSize=15&fontAlignY=45&descAlignY=70"/>
 
+## Navageção
+
+1. [Sobre o projeto](#sobre-o-projeto)  
+2. [Sobre o tema](#sobre-o-tema)
+3. [Tecnologias utilizadas](#tecnologias-utilizadas)  
+ 3.1 [Bibliotecas](#bibliotecas)
+3. [Conhecendo os dados](#conhecendo-os-dados)  
+ 3.1 [Esquema original](e#squema-original)  
+ 3.2 [Modelagem de dados](#modelagem-de-dados)
+4. [Data Visualization](#data-visualization)  
+  4.1 [Relatório de Análise de Dados em PDF](#relatório-de-análise-de-dados-em-pdf)  
+   4.2 [Relatório de Análise de Dados no Power BI](#relatório-de-análise-de-dados-no-power-bi)  
+5. [Publlicações](#publicações)
+
 ## Sobre o projeto
 Os datasets tratados e analisados neste projeto são referentes às bolsas concedidas e o perfil dos beneficiários do Programa Universidade para Todos entre os anos de 2005 e 2020. Os dezesseis arquivos em formato *.csv* podem ser encontrados no [Portal de Dados Abertos](https://dados.gov.br/dados/conjuntos-dados) do governo federal.
 
@@ -71,7 +85,7 @@ Os dados tratados foram formatados para um banco de dados SQL com a seguinte mod
 
 Esse relatório completo está disponível no arquivo [Relatório de Análise de Dados](https://github.com/maisumdiego/DadosProuni/blob/main/Relat%C3%B3rio%20de%20An%C3%A1lise%20de%20Dados.pdf).
 
-### Relatório de Análise de Dados em PDF no Power BI
+### Relatório de Análise de Dados no Power BI
 <div>
 <img width="50%" height="50%" src="https://raw.githubusercontent.com/maisumdiego/DadosProuni/main/Imagens/Power%20BI%201.png">
 <img width="50%" height="50%" src="https://github.com/maisumdiego/DadosProuni/blob/main/Imagens/Power%20BI%202.png">
