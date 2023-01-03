@@ -98,3 +98,5 @@ O arquivo desse relatório não está disponível no online, bem como sua base d
 Um artigo discorrendo um pouco do processo de ETL foi escrito e publicado no Linkedin: [Projeto Dados Prouni: processo de ETL para o SQL Server utilizando Python](https://www.linkedin.com/pulse/projeto-dados-prouni-processo-de-etl-para-o-sqlserver-diego-ferreira/).
 
 As demais postagens referentes ao projeto podem ser encontradas no meu [perfil no Linkedin](https://www.linkedin.com/in/ddiegoferreira/).
+
+<img width=100% src="https://capsule-render.vercel.app/api?type=rect&color=0:73db86,100:00bfef&section=footer&height=70&animation=fadeIn&fontColor=ffffff&fontSize=30&descSize=15&fontAlignY=45&descAlignY=70"/>
