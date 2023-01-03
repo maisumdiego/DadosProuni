@@ -92,7 +92,7 @@ Esse relatório completo está disponível no arquivo [Relatório de Análise de
 </div>
 &nbsp;
 
-O arquivo desse relatório não está disponível no online, bem como sua base de dados.
+O arquivo desse relatório não está disponível online, bem como sua base de dados.
 
 ## Publicações
 Um artigo discorrendo um pouco do processo de ETL foi escrito e publicado no Linkedin: [Projeto Dados Prouni: processo de ETL para o SQL Server utilizando Python](https://www.linkedin.com/pulse/projeto-dados-prouni-processo-de-etl-para-o-sqlserver-diego-ferreira/).
